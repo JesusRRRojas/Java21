@@ -1,0 +1,197 @@
+package com.pe.proyecto.api_jersey.escuelaConductores.Repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.pe.proyecto.api_jersey.escuelaConductores.entity.EscuelaConductorConsultaEntity;
+import com.pe.proyecto.api_jersey.escuelaConductores.entity.EscuelaConductorEntity;
+
+public interface EscuelaConductorConsultasRepository extends JpaRepository<EscuelaConductorConsultaEntity, Integer>{
+
+	
+	@Query(value = "SELECT ES.ID,"
+			+ " ES.COD_DEP,"
+			+ " DE.NOMBRE AS NOM_DEP,"
+			+ " ES.COD_PRO,"
+			+ " PR.NOMBRE AS NOM_PRO,"
+			+ " ES.COD_DIS,"
+			+ " DI.NOMBRE AS NOM_DIS,"
+			+ " ES.NRO_RUC,"
+			+ " ES.NOMBRE_ESTABLECIMIENTO,"
+			+ " ES.DIRECCION,"
+			+ " ES.CORREO,"
+			+ " ES.TELEFONO,"
+			+ " ES.ESTADO "
+			+ " FROM ESCUELAS_CONDUCTORES ES "
+			+ " INNER JOIN DEPARTAMENTOS DE ON ES.COD_DEP = DE.COD_DEP "
+			+ " INNER JOIN PROVINCIAS PR ON ES.COD_PRO = PR.COD_PRO "
+			+ " INNER JOIN DISTRITOS DI ON ES.COD_DIS = DI.COD_DIS "
+			+ " WHERE ELIMINADO = 0", nativeQuery = true)	
+	List<EscuelaConductorConsultaEntity> all();
+	
+	@Query(value = "SELECT ES.ID,"
+			+ " ES.COD_DEP,"
+			+ " DE.NOMBRE AS NOM_DEP,"
+			+ " ES.COD_PRO,"
+			+ " PR.NOMBRE AS NOM_PRO,"
+			+ " ES.COD_DIS,"
+			+ " DI.NOMBRE AS NOM_DIS,"
+			+ " ES.NRO_RUC,"
+			+ " ES.NOMBRE_ESTABLECIMIENTO,"
+			+ " ES.DIRECCION,"
+			+ " ES.CORREO,"
+			+ " ES.TELEFONO,"
+			+ " ES.ESTADO "
+			+ " FROM ESCUELAS_CONDUCTORES ES "
+			+ " INNER JOIN DEPARTAMENTOS DE ON ES.COD_DEP = DE.COD_DEP "
+			+ " INNER JOIN PROVINCIAS PR ON ES.COD_PRO = PR.COD_PRO "
+			+ " INNER JOIN DISTRITOS DI ON ES.COD_DIS = DI.COD_DIS "
+			+ " WHERE  ES.ID = :id "
+			+ " AND  ELIMINADO = 0", nativeQuery = true)	
+	EscuelaConductorConsultaEntity findCustomById(@Param("id") Integer id);
+	
+	@Query(value = "SELECT ES.ID,"
+			+ " ES.COD_DEP,"
+			+ " DE.NOMBRE AS NOM_DEP,"
+			+ " ES.COD_PRO,"
+			+ " PR.NOMBRE AS NOM_PRO,"
+			+ " ES.COD_DIS,"
+			+ " DI.NOMBRE AS NOM_DIS,"
+			+ " ES.NRO_RUC,"
+			+ " ES.NOMBRE_ESTABLECIMIENTO,"
+			+ " ES.DIRECCION,"
+			+ " ES.CORREO,"
+			+ " ES.TELEFONO,"
+			+ " ES.ESTADO "
+			+ " FROM ESCUELAS_CONDUCTORES ES "
+			+ " INNER JOIN DEPARTAMENTOS DE ON ES.COD_DEP = DE.COD_DEP "
+			+ " INNER JOIN PROVINCIAS PR ON ES.COD_PRO = PR.COD_PRO "
+			+ " INNER JOIN DISTRITOS DI ON ES.COD_DIS = DI.COD_DIS "
+			+ " WHERE  upper(ES.NOMBRE_ESTABLECIMIENTO) like upper(:nombre) "
+			+ " AND  ELIMINADO = 0", nativeQuery = true)	
+	List<EscuelaConductorConsultaEntity> findNombreLikeCustom(@Param("nombre") String nombre);
+	
+	@Query(value = "SELECT ES.ID,"
+			+ " ES.COD_DEP,"
+			+ " DE.NOMBRE AS NOM_DEP,"
+			+ " ES.COD_PRO,"
+			+ " PR.NOMBRE AS NOM_PRO,"
+			+ " ES.COD_DIS,"
+			+ " DI.NOMBRE AS NOM_DIS,"
+			+ " ES.NRO_RUC,"
+			+ " ES.NOMBRE_ESTABLECIMIENTO,"
+			+ " ES.DIRECCION,"
+			+ " ES.CORREO,"
+			+ " ES.TELEFONO,"
+			+ " ES.ESTADO "
+			+ " FROM ESCUELAS_CONDUCTORES ES "
+			+ " INNER JOIN DEPARTAMENTOS DE ON ES.COD_DEP = DE.COD_DEP "
+			+ " INNER JOIN PROVINCIAS PR ON ES.COD_PRO = PR.COD_PRO "
+			+ " INNER JOIN DISTRITOS DI ON ES.COD_DIS = DI.COD_DIS "
+			+ " WHERE  ( "
+			+ "        upper(DE.NOMBRE) like upper(:nombre) or "
+			+ "        upper(PR.NOMBRE) like upper(:nombre) or "
+			+ "        upper(DI.NOMBRE) like upper(:nombre) "
+			+ "    ) "
+			+ " AND  ELIMINADO = 0", nativeQuery = true)	
+	List<EscuelaConductorConsultaEntity> findUbigeoLikeCustom(@Param("nombre") String nombre);
+
+	@Query(value = "SELECT ES.ID,"
+			+ " ES.COD_DEP,"
+			+ " DE.NOMBRE AS NOM_DEP,"
+			+ " ES.COD_PRO,"
+			+ " PR.NOMBRE AS NOM_PRO,"
+			+ " ES.COD_DIS,"
+			+ " DI.NOMBRE AS NOM_DIS,"
+			+ " ES.NRO_RUC,"
+			+ " ES.NOMBRE_ESTABLECIMIENTO,"
+			+ " ES.DIRECCION,"
+			+ " ES.CORREO,"
+			+ " ES.TELEFONO,"
+			+ " ES.ESTADO "
+			+ " FROM ESCUELAS_CONDUCTORES ES "
+			+ " INNER JOIN DEPARTAMENTOS DE ON ES.COD_DEP = DE.COD_DEP "
+			+ " INNER JOIN PROVINCIAS PR ON ES.COD_PRO = PR.COD_PRO "
+			+ " INNER JOIN DISTRITOS DI ON ES.COD_DIS = DI.COD_DIS "
+			+ " WHERE ES.NRO_RUC = :ruc "
+			+ " AND  ES.ELIMINADO = 0", nativeQuery = true)	
+	List<EscuelaConductorConsultaEntity> findByNroRUC(@Param("ruc") String ruc);
+	
+	@Query(value = "SELECT ES.ID,"
+			+ " ES.COD_DEP,"
+			+ " DE.NOMBRE AS NOM_DEP,"
+			+ " ES.COD_PRO,"
+			+ " PR.NOMBRE AS NOM_PRO,"
+			+ " ES.COD_DIS,"
+			+ " DI.NOMBRE AS NOM_DIS,"
+			+ " ES.NRO_RUC,"
+			+ " ES.NOMBRE_ESTABLECIMIENTO,"
+			+ " ES.DIRECCION,"
+			+ " ES.CORREO,"
+			+ " ES.TELEFONO,"
+			+ " ES.ESTADO "
+			+ " FROM ESCUELAS_CONDUCTORES ES "
+			+ " INNER JOIN DEPARTAMENTOS DE ON ES.COD_DEP = DE.COD_DEP "
+			+ " INNER JOIN PROVINCIAS PR ON ES.COD_PRO = PR.COD_PRO "
+			+ " INNER JOIN DISTRITOS DI ON ES.COD_DIS = DI.COD_DIS "
+			+ " WHERE ES.COD_DEP = :departamento "
+			+ " AND  ES.ELIMINADO = 0", nativeQuery = true)	
+	List<EscuelaConductorConsultaEntity> findByDepartamento(@Param("departamento") String departamento);
+	
+	@Query(value = "SELECT ES.ID,"
+			+ " ES.COD_DEP,"
+			+ " DE.NOMBRE AS NOM_DEP,"
+			+ " ES.COD_PRO,"
+			+ " PR.NOMBRE AS NOM_PRO,"
+			+ " ES.COD_DIS,"
+			+ " DI.NOMBRE AS NOM_DIS,"
+			+ " ES.NRO_RUC,"
+			+ " ES.NOMBRE_ESTABLECIMIENTO,"
+			+ " ES.DIRECCION,"
+			+ " ES.CORREO,"
+			+ " ES.TELEFONO,"
+			+ " ES.ESTADO "
+			+ " FROM ESCUELAS_CONDUCTORES ES "
+			+ " INNER JOIN DEPARTAMENTOS DE ON ES.COD_DEP = DE.COD_DEP "
+			+ " INNER JOIN PROVINCIAS PR ON ES.COD_PRO = PR.COD_PRO "
+			+ " INNER JOIN DISTRITOS DI ON ES.COD_DIS = DI.COD_DIS "
+			+ " WHERE ES.COD_DEP = :departamento "
+			+ " AND  ES.COD_PRO = :provincia "
+			+ " AND  ES.ELIMINADO = 0", nativeQuery = true)	
+	List<EscuelaConductorConsultaEntity> findByDepartamentoProvincia(@Param("departamento") String departamento, @Param("provincia") String provincia);
+	
+	@Query(value = "SELECT ES.ID,"
+			+ " ES.COD_DEP,"
+			+ " DE.NOMBRE AS NOM_DEP,"
+			+ " ES.COD_PRO,"
+			+ " PR.NOMBRE AS NOM_PRO,"
+			+ " ES.COD_DIS,"
+			+ " DI.NOMBRE AS NOM_DIS,"
+			+ " ES.NRO_RUC,"
+			+ " ES.NOMBRE_ESTABLECIMIENTO,"
+			+ " ES.DIRECCION,"
+			+ " ES.CORREO,"
+			+ " ES.TELEFONO,"
+			+ " ES.ESTADO "
+			+ " FROM ESCUELAS_CONDUCTORES ES "
+			+ " INNER JOIN DEPARTAMENTOS DE ON ES.COD_DEP = DE.COD_DEP "
+			+ " INNER JOIN PROVINCIAS PR ON ES.COD_PRO = PR.COD_PRO "
+			+ " INNER JOIN DISTRITOS DI ON ES.COD_DIS = DI.COD_DIS "
+			+ " WHERE ES.COD_DEP = :departamento "
+			+ " AND  ES.COD_PRO = :provincia "
+			+ " AND  ES.COD_DIS = :distrito "
+			+ " AND  ES.ELIMINADO = 0", nativeQuery = true)	
+	List<EscuelaConductorConsultaEntity> findByDepartamentoProvinciaDistrito(@Param("departamento") String departamento, @Param("provincia") String provincia,@Param("distrito") String distrito);
+	
+
+	
+
+/*	
+	@Query(value = "SELECT COD_DEP, COD_PRO, NOMBRE FROM PROVINCIAS "
+			+ " where COD_DEP = :codigoDepartamento and upper(NOMBRE) like upper(:nombre) ", nativeQuery = true)	
+	List<ProvinciaEntity> findNombreLikeCustomA( @Param("codigoDepartamento") String codigoDepartamento, @Param("nombre") String nombre);
+*/
+}

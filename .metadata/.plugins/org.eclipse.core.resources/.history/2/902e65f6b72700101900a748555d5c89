@@ -1,0 +1,20 @@
+package com.pe.proyecto.api_jersey.escuelaConductores.mapper;
+
+import org.springframework.stereotype.Component;
+
+import com.pe.proyecto.api_jersey.escuelaConductores.dto.ProvinciaDto;
+import com.pe.proyecto.api_jersey.escuelaConductores.entity.ProvinciaEntity;
+
+@Component
+public class ProvinciaMapperImpl implements ProvinciaMapper {
+
+	@Override
+	public ProvinciaDto toDTO(ProvinciaEntity e) {
+		return ProvinciaDto
+				.builder()
+				.codigoDepartamento(e.getID().getCOD_DEP())
+				.codigoProvincia(e.getID().getCOD_PRO())
+				.nombre(e.getNOMBRE()).build();
+	}
+
+}

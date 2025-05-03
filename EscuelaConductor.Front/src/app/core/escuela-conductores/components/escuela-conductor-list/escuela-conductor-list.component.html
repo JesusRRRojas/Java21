@@ -1,0 +1,191 @@
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+/>
+
+
+<div class="container">
+
+  <mat-tab-group animationDuration="0ms">
+    <mat-tab label="Búsqueda input">
+      <div class="tabs">
+        <form [formGroup]="frmEscuelasList" (ngSubmit)="search()">
+          <div class="search-form">
+            <!-- Select para escoger tipo de búsqueda -->
+            <mat-form-field appearance="fill" appearance="outline">
+              <mat-label>Tipo de Búsqueda</mat-label>
+              <mat-select formControlName="searchType">
+                <mat-option value="nombre">Nombre</mat-option>
+                <mat-option value="ubigeo">Ubigeo</mat-option>
+              </mat-select>
+            </mat-form-field>
+  
+            <!-- Input para criterio de búsqueda -->
+            <mat-form-field appearance="fill" appearance="outline" class="search-input">
+              <mat-label>Buscar</mat-label>
+              <input matInput formControlName="searchText" placeholder="Escribe tu búsqueda...">
+            </mat-form-field>
+  
+            <!-- Botones -->
+            <div class="search-buttons">
+              <button mat-flat-button color="primary" type="submit" class="btn-icon-text">
+                <mat-icon>search</mat-icon>
+                Buscar
+              </button>
+  
+              <button mat-stroked-button color="accent" type="button" (click)="new()" class="btn-icon-text">
+                <mat-icon>add</mat-icon> 
+                Nuevo
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </mat-tab>
+  
+    <mat-tab label="Búsqueda ubigeo">
+      <div class="tabs">
+        <form [formGroup]="frmUbigeoFiltro" (ngSubmit)="searchUbigeo()">
+          <div class="row mb-3">
+            <!-- Departamento -->
+            <div class="col-md-12">
+              <mat-form-field appearance="fill" appearance="outline"  class="w-100">
+                <mat-label>Departamento</mat-label>
+                <mat-select formControlName="departamento" (selectionChange)="onDepartamentoChangeEvent($event)">
+                  <mat-option value="todos">Todos</mat-option>
+                  <mat-option *ngFor="let depto of departamentos" [value]="depto.codigoDepartamento">
+                    {{depto.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+      
+            </div>
+            <!-- Provincia -->
+            <div class="col-md-12">
+              <mat-form-field appearance="fill" appearance="outline"  class="w-100">
+                <mat-label>Provincia</mat-label>
+                <mat-select formControlName="provincia" (selectionChange)="onProvinciaChangeEvent($event)">
+                  <mat-option value="todos">Todos</mat-option>
+                  <mat-option *ngFor="let prov of provincias" [value]="prov.codigoProvincia">
+                    {{ prov.nombre }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+      
+            </div>
+            <!-- Distrito -->
+            <div class="col-md-12">
+              <mat-form-field appearance="fill" appearance="outline"  class="w-100">
+                <mat-label>Distrito</mat-label>
+                <mat-select formControlName="distrito">
+                  <mat-option value="todos">Todos</mat-option>
+                  <mat-option *ngFor="let dist of distritos" [value]="dist.codigoDistrito">
+                    {{ dist.nombre }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <!-- Botones -->
+            <div class="search-buttons">
+              <button mat-flat-button color="primary" type="submit" class="btn-icon-text">
+                <mat-icon>search</mat-icon>
+                Buscar
+              </button>
+  
+              <button mat-stroked-button color="accent" type="button" (click)="borrarFiltro()" class="btn-icon-text">
+                <mat-icon>clear</mat-icon> 
+                Limpiar
+              </button>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+  
+  <span class="spacer"></span>
+  <mat-divider></mat-divider>
+  <span class="spacer"></span>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="nombreDepartamento">
+        <th mat-header-cell *matHeaderCellDef> Departamento </th>
+        <td mat-cell *matCellDef="let element"> {{element.nombreDepartamento}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="nombreProvincia">
+        <th mat-header-cell *matHeaderCellDef> Provincia </th>
+        <td mat-cell *matCellDef="let element"> {{element.nombreProvincia}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="nombreDistrito">
+        <th mat-header-cell *matHeaderCellDef> Distrito </th>
+        <td mat-cell *matCellDef="let element"> {{element.nombreDistrito}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="nroRUC">
+        <th mat-header-cell *matHeaderCellDef> RUC </th>
+        <td mat-cell *matCellDef="let element"> {{element.nroRUC}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="nombreEscuela">
+        <th mat-header-cell *matHeaderCellDef> Escuela </th>
+        <td mat-cell *matCellDef="let element"> {{element.nombreEscuela}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="direccion">
+        <th mat-header-cell *matHeaderCellDef> Dirección </th>
+        <td mat-cell *matCellDef="let element"> {{element.direccion}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="correo">
+        <th mat-header-cell *matHeaderCellDef> Correo </th>
+        <td mat-cell *matCellDef="let element"> {{element.correo}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="telefono">
+        <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+        <td mat-cell *matCellDef="let element"> {{element.telefono}} </td>
+      </ng-container>
+
+      
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+      </ng-container>
+
+      
+      <ng-container matColumnDef="accion">
+        <th mat-header-cell *matHeaderCellDef> Acción </th>
+        <td mat-cell *matCellDef="let escuela">
+          <!-- Botón de Editar -->
+          <button class="btn btn-sm btn-outline-primary me-1" [routerLink]="['/escuelaconductor/details/', escuela.id]" title="Editar">
+            <i class="bi bi-pencil"></i>
+          </button>
+      
+          <!-- Botón de Eliminar -->
+          <button class="btn btn-sm btn-outline-danger" (click)="delete(escuela)" title="Eliminar">
+            <i class="bi bi-trash"></i>
+          </button>
+        </td>
+      </ng-container>
+      
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      
+    </table>
+    <mat-paginator [length]="escuelas.length"
+        [pageSize]="itemsPerPage"
+        [pageSizeOptions]="[5, 10, 20]"
+        (page)="pageChanged($event)">
+    </mat-paginator>
+  </div>

@@ -1,0 +1,164 @@
+package com.pe.proyecto.api_jersey.escuelaConductores.service;
+import static java.util.Objects.isNull;
+
+import java.io.Console;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.aop.ThrowsAdvice;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.pe.proyecto.api_jersey.escuelaConductores.Repository.EscuelaConductorConsultasRepository;
+import com.pe.proyecto.api_jersey.escuelaConductores.Repository.EscuelaConductorRepository;
+import com.pe.proyecto.api_jersey.escuelaConductores.dto.EscuelaConductorDto;
+import com.pe.proyecto.api_jersey.escuelaConductores.entity.EscuelaConductorConsultaEntity;
+import com.pe.proyecto.api_jersey.escuelaConductores.entity.EscuelaConductorEntity;
+import com.pe.proyecto.api_jersey.escuelaConductores.mapper.EscuelaConductorMapper;
+
+@Service
+public class EscuelaConductorServiceImpl implements EscuelaConductorService {
+
+	@Autowired
+	private EscuelaConductorRepository escuelaConductorRepository;
+	@Autowired
+	private EscuelaConductorConsultasRepository escuelaConductorConsultasRepository;
+	
+	@Autowired
+	private EscuelaConductorMapper escuelaMapper;
+	
+	@Override
+	public List<EscuelaConductorDto> all() throws ServiceException{
+		return this.escuelaConductorConsultasRepository.all().stream().map(e->escuelaMapper.toDTO(e)).toList(); 
+
+	}
+
+	@Override
+	public EscuelaConductorDto findCustomById(Integer id) throws ServiceException{
+		var escuelaEntity = this.escuelaConductorConsultasRepository.findCustomById(id);
+		
+		if (escuelaEntity == null) 
+			return null;
+		
+		
+		return escuelaMapper.toDTO(escuelaEntity);
+	}
+
+	@Override
+	public List<EscuelaConductorDto> findNombreLikeCustom(String nombre)throws ServiceException {
+		nombre = "%" + (isNull(nombre) ? "" : nombre) + "%";
+		return this.escuelaConductorConsultasRepository.findNombreLikeCustom(nombre).stream().map(e->escuelaMapper.toDTO(e)).toList();
+
+	}
+
+	@Override
+	public List<EscuelaConductorDto> findUbigeoLikeCustom(String nombre) throws ServiceException{
+		nombre = "%" + (isNull(nombre) ? "" : nombre) + "%";
+		return this.escuelaConductorConsultasRepository.findUbigeoLikeCustom(nombre).stream().map(e->escuelaMapper.toDTO(e)).toList();
+
+	}
+	
+	@Override
+	public Optional<EscuelaConductorEntity> findById(Integer id) throws ServiceException{
+		return this.escuelaConductorRepository.findById(id);
+
+	}
+	@Override
+	public EscuelaConductorDto insert(EscuelaConductorDto escuelaConductorDto) throws ServiceException {	
+		var escuelaEntity = escuelaMapper.toEntity(escuelaConductorDto);
+		escuelaEntity.setEliminado(0);
+		
+		var escuelaInsertado = this.escuelaConductorRepository.save(escuelaEntity);		
+		return escuelaMapper.toDTO(escuelaInsertado);
+
+	}
+
+	@Override
+	public EscuelaConductorDto update(Integer id, EscuelaConductorDto escuelaConductorDto) throws ServiceException{
+
+			Optional<EscuelaConductorEntity> buscarEscuela = findById(id) ;
+			EscuelaConductorEntity oOriginal = buscarEscuela.get();
+			
+					
+			if(escuelaConductorDto.getCodigoDepartamento() != null)
+				oOriginal.setCOD_DEP(escuelaConductorDto.getCodigoDepartamento());
+			
+			if(escuelaConductorDto.getCodigoProvincia() != null)
+				oOriginal.setCOD_PRO(escuelaConductorDto.getCodigoProvincia());
+			
+			if(escuelaConductorDto.getCodigoDistrito() != null)
+				oOriginal.setCOD_DIS(escuelaConductorDto.getCodigoDistrito());
+			
+			if(escuelaConductorDto.getNroRUC() != null)
+				oOriginal.setNRO_RUC(escuelaConductorDto.getNroRUC());
+			
+			if(escuelaConductorDto.getNombreEscuela() != null)
+				oOriginal.setNombre_Establecimiento(escuelaConductorDto.getNombreEscuela());
+			
+			if(escuelaConductorDto.getDireccion() != null)
+				oOriginal.setDireccion(escuelaConductorDto.getDireccion());
+			
+			if(escuelaConductorDto.getCorreo() != null)
+				oOriginal.setCorreo(escuelaConductorDto.getCorreo());
+			
+			if(escuelaConductorDto.getTelefono() != null)
+				oOriginal.setTelefono(escuelaConductorDto.getTelefono());
+			
+			if(escuelaConductorDto.getEstado() != null)
+				oOriginal.setEstado(escuelaConductorDto.getEstado());
+			
+			var escuelaNueva = this.escuelaConductorRepository.save(oOriginal);
+			return escuelaMapper.toDTO(escuelaNueva);
+
+	}
+
+	@Override
+	public Boolean deleteCustom(Integer id) {
+		try	
+		{
+			Optional<EscuelaConductorEntity> buscarEscuela = findById(id) ;
+			EscuelaConductorEntity oOriginal = buscarEscuela.get();
+			
+			oOriginal.setEliminado(1); 
+			
+			var escuelaEliminado = this.escuelaConductorRepository.save(oOriginal);
+			return escuelaEliminado != null;
+		}
+		catch(Exception e)
+		{
+			throw new RuntimeException();
+		}
+	}
+
+	@Override
+	public Boolean existeRUC(String ruc) throws ServiceException {
+		System.out.println("==================================" + ruc + "=========================================");
+
+	    List<EscuelaConductorConsultaEntity> escuelas = this.escuelaConductorConsultasRepository.findByNroRUC(ruc);
+
+	    System.out.println("Escuelas encontradas para RUC " + ruc + ": " + escuelas);
+
+	    return !escuelas.isEmpty();
+
+	}
+
+	@Override
+	public List<EscuelaConductorDto> findFiltro(String departamento, String provincia, String distrito) {
+		System.out.println(departamento);
+		System.out.println(provincia);
+		System.out.println(distrito);
+
+		if(departamento == "todos" && provincia == "todos" && distrito == "todos" )
+			return this.escuelaConductorConsultasRepository.all().stream().map(e->escuelaMapper.toDTO(e)).toList(); 
+
+		if(departamento != "todos" && provincia != "todos" && distrito != "todos" )
+			return this.escuelaConductorConsultasRepository.findByDepartamentoProvinciaDistrito(departamento, provincia, distrito).stream().map(e->escuelaMapper.toDTO(e)).toList(); 
+		
+		if(departamento != "todos" && provincia != "todos" )
+			return this.escuelaConductorConsultasRepository.findByDepartamentoProvincia(departamento, provincia).stream().map(e->escuelaMapper.toDTO(e)).toList(); 
+
+		return this.escuelaConductorConsultasRepository.findByDepartamento(departamento).stream().map(e->escuelaMapper.toDTO(e)).toList();  
+	}
+
+
+}

@@ -1,0 +1,23 @@
+package com.pe.proyecto.api_jersey.escuelaConductores.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.repository.query.Param;
+
+import com.pe.proyecto.api_jersey.escuelaConductores.entity.EscuelaConductorEntity;
+import com.pe.proyecto.api_jersey.escuelaConductores.dto.EscuelaConductorDto;
+
+public interface EscuelaConductorService {
+	List<EscuelaConductorDto> all() throws ServiceException;
+	EscuelaConductorDto findCustomById(@Param("id") Integer id) throws ServiceException;
+	List<EscuelaConductorDto> findNombreLikeCustom(@Param("nombre") String nombre) throws ServiceException;
+	List<EscuelaConductorDto> findUbigeoLikeCustom(@Param("nombre") String nombre) throws ServiceException;
+	Optional<EscuelaConductorEntity> findById(Integer id) throws ServiceException;
+	EscuelaConductorDto insert(EscuelaConductorDto escuelaConductorDto) throws ServiceException;
+	EscuelaConductorDto update(Integer id, EscuelaConductorDto escuelaConductorDto) throws ServiceException;
+	Boolean deleteCustom(Integer id) throws ServiceException;
+	Boolean existeRUC(String ruc) throws ServiceException;
+	List<EscuelaConductorDto> findFiltro(String departamento, String provincia, String distrito)throws ServiceException ;
+
+}

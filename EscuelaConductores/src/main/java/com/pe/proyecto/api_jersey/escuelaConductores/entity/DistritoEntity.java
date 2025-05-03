@@ -1,0 +1,65 @@
+package com.pe.proyecto.api_jersey.escuelaConductores.entity;
+
+import com.pe.proyecto.api_jersey.escuelaConductores.entity.id.DistritoId;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity(name = "DistritoEntity")
+@Table(name = "DISTRITOS")
+@Data
+public class DistritoEntity {
+	
+	@EmbeddedId
+	private DistritoId ID;
+	
+	@Column(name = "NOMBRE")
+	private String NOMBRE;
+	
+	/*
+	public DistritoEntity() 
+	{
+		super();
+	}
+	
+	public DistritoEntity (DistritoId id, String nombre)
+	{
+		setID(id);
+		setNOMBRE(nombre);
+		
+	}
+	*/
+
+	
+	public DistritoId getID() {
+		return ID;
+	}
+
+	public void setID(DistritoId iD) {
+		ID = iD;
+	}
+
+	public String getNOMBRE() {
+		return NOMBRE;
+	}
+	public void setNOMBRE(String NOMBRE) {
+		this.NOMBRE = NOMBRE;
+	}
+
+	@Override
+	public String toString() {
+		return "DistritoEntity [ID=" + ID + ", NOMBRE=" + NOMBRE + "]";
+	}
+
+	
+	
+}

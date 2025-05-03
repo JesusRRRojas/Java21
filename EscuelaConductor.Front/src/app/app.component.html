@@ -1,0 +1,26 @@
+<mat-toolbar color="primary" class="toolbar">
+    <div class="logo-container">
+      <img mat-card-image src="https://upload.wikimedia.org/wikipedia/commons/9/97/Escudo_nacional_del_Per%C3%BA.png" alt="Escudo de Perú">
+    </div>    
+    <div class="title-container">
+      <span class="title">Escuela de Conductores</span>
+      <span class="subtitle">Programa Java Developer</span>
+    </div>
+  </mat-toolbar>
+  
+  <nav>
+    <a mat-button routerLink="/escuelaconductor/list">Escuelas de Conductor</a>
+    <a mat-button routerLink="/departamentos/list">Ubigeo</a>
+  </nav>
+
+  <div class="page-container">
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  
+    <!-- Footer -->
+    <footer class="footer">
+      <span class="footer-text">Autor: {{autor}}</span>
+      <span class="footer-date">Fecha: {{fecha}}</span>
+    </footer>
+  </div>

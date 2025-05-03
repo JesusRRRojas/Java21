@@ -1,0 +1,21 @@
+package com.pe.proyecto.persistencia;
+
+import java.sql.Connection;
+
+import com.pe.proyecto.util.BDConexion;
+
+public class GenericoImpl {
+
+	 private String driverOracle = "oracle.jdbc.OracleDriver";
+	 private String url = "jdbc:oracle:thin:@localhost:1521:XE";
+	 private String usuario = "C##BD_JROJAS";
+	 private String contraseña = "123456";
+ 
+	 private BDConexion dbConnectionOracle = new BDConexion();
+	 
+	 protected Connection getConnection() {
+		 return dbConnectionOracle.getConnection(driverOracle , url, usuario, contraseña);
+	 }
+
+
+}

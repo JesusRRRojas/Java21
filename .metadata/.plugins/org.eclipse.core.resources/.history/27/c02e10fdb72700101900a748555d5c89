@@ -1,0 +1,9 @@
+package com.pe.proyecto.api_jersey.escuelaConductores.mapper;
+
+import com.pe.proyecto.api_jersey.escuelaConductores.dto.ProvinciaDto;
+import com.pe.proyecto.api_jersey.escuelaConductores.entity.ProvinciaEntity;
+
+public interface ProvinciaMapper {
+	ProvinciaDto toDTO(ProvinciaEntity e);
+	ProvinciaEntity toEntity(ProvinciaDto d);
+}

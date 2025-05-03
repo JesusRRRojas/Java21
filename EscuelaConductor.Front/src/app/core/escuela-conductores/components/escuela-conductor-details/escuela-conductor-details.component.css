@@ -1,0 +1,22 @@
+/* Asegúrate de que el body o contenedor tenga el tamaño de pantalla completa */
+html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+  .card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Esto asegura que el contenedor ocupe toda la altura de la pantalla */
+  }
+  
+  .card-content {
+    /* Aquí puedes personalizar el tamaño del contenido dentro del card */
+    width: 50%; /* Esto hace que el card ocupe el 50% del ancho de la pantalla */
+    max-width: 600px; /* Esto limita el ancho máximo a 600px, puedes ajustarlo según lo necesites */
+    margin: 0 auto;
+  }
+  button {
+    margin-right: 8px; /* Espacio entre botones (ajustar según lo necesites) */
+  }

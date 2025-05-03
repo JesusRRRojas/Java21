@@ -1,0 +1,59 @@
+html, body {
+    height: 100%;         /* Establece la altura de toda la página */
+    margin: 0;            /* Elimina el margen por defecto */
+  }
+  
+.toolbar {
+    display: flex;
+    justify-content: center; /* Centra los elementos horizontalmente */
+    align-items: center;     /* Centra los elementos verticalmente */
+    height: 80px;            /* Ajusta la altura del toolbar */
+  }
+  
+  .logo-container {
+    margin-right: 20px; /* Espacio entre el logo y el texto */
+  }
+  
+  .title-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; /* Alinea los textos hacia la izquierda */
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+  
+  
+  .logo-container img {
+    max-width: 100%;     /* Limita el ancho al 100% del contenedor */
+    max-height: 60px;    /* Limita la altura a un máximo de 60px (ajustable) */
+    object-fit: contain; /* Mantiene la relación de aspecto sin distorsionar */
+  }
+  .page-container {
+    display: flex;
+    flex-direction: column;  /* Organiza los elementos en columna */
+  }
+  
+  .content {
+    flex: 1;  /* Hace que el contenido ocupe todo el espacio disponible */
+  }
+  
+  .footer {
+    position: absolute;
+    bottom: 0;         /* Coloca el footer en la parte inferior */
+    left: 0;           /* Alinea el footer a la izquierda */
+    width: 100%;       /* Hace que el footer ocupe todo el ancho de la página */
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+  }

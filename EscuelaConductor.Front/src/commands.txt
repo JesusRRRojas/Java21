@@ -1,0 +1,21 @@
+https://www.npmjs.com/package/ngx-toastr
+
+// npm i ngx-toastr
+
+npm install ngx-toastr --save
+
+npm install @angular/animations --save
+
+npm install sweetalert2
+
+//ng add ngx-bootstrap  --component pagination
+
+npm install ngx-bootstrap --save
+
+Projectos (OK):
+
+api-productos-duplicate-be-v1  (back-end)
+app-use-case-v1 (Front-end)
+
+
+

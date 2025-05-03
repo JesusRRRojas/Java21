@@ -1,0 +1,61 @@
+/* Formulario de búsqueda */
+.search-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px; /* Espacio entre los campos */
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search-form mat-form-field {
+  flex: 1 1 200px; /* Que los campos se ajusten y no sean muy chicos */
+  min-width: 200px;
+}
+
+/* Estilo de los botones de búsqueda */
+.search-buttons {
+  display: flex;
+  gap: 12px; /* Espacio entre botones (un poco más de separación) */
+}
+
+/* Diseño de los botones con iconos */
+.btn-icon-text {
+  display: flex;
+  align-items: center; /* Centra el texto y el icono */
+  gap: 8px; /* Espacio entre icono y texto */
+}
+
+.mat-icon {
+  font-size: 20px; /* Tamaño del icono */
+}
+
+/* Estilos generales de los botones */
+button {
+  font-size: 14px; /* Tamaño de la fuente */
+  padding: 8px 16px; /* Ajustado para que no se vea tan grande */
+  border-radius: 4px; /* Bordes redondeados */
+  text-transform: uppercase; /* Hace que el texto esté en mayúsculas */
+}
+
+button:focus {
+  outline: none; /* Quita el borde al hacer foco */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Efecto sutil al poner el foco */
+}
+
+button.mat-flat-button {
+  transition: all 0.3s ease; /* Efecto suave al pasar el mouse */
+}
+
+button.mat-flat-button:hover {
+  background-color: rgba(0, 123, 255, 0.1); /* Cambia el color de fondo al hacer hover */
+}
+
+/* Mejora en el espacio entre los botones */
+.search-buttons button {
+  display: flex;
+  align-items: center;
+}
+
+.tabs{
+  padding-top: 15px;
+}

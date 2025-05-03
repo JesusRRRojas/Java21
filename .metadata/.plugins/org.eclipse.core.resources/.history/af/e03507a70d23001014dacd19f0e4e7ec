@@ -1,0 +1,16 @@
+spring.application.name=EscuelaConductores
+
+server.port=8082
+spring.main.web-application-type=servlet
+
+spring.datasource.url=jdbc:oracle:thin:@localhost:1521:XE
+spring.datasource.driverClassName=oracle.jdbc.driver.OracleDriver
+spring.datasource.username=C##BDJROJAS
+spring.datasource.password=123456
+
+springdoc.swagger-ui.enabled=true
+springdoc.swagger-ui.path=/swagger-ui.html
+
+
+seg.user.name=jrojas
+seg.user.password={noop}123456

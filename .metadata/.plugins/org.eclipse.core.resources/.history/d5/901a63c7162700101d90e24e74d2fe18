@@ -1,0 +1,122 @@
+package com.pe.proyecto.api_jersey.escuelaConductores.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.pe.proyecto.api_jersey.escuelaConductores.dto.DepartamentoDto;
+import com.pe.proyecto.api_jersey.escuelaConductores.dto.DistritoDto;
+import com.pe.proyecto.api_jersey.escuelaConductores.dto.EscuelaConductorDto;
+import com.pe.proyecto.api_jersey.escuelaConductores.dto.ProvinciaDto;
+
+import com.pe.proyecto.api_jersey.escuelaConductores.service.DepartamentoService;
+import com.pe.proyecto.api_jersey.escuelaConductores.service.DistritoService;
+import com.pe.proyecto.api_jersey.escuelaConductores.service.ProvinciaService;
+import com.pe.proyecto.api_jersey.escuelaConductores.service.ServiceException;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Response;
+
+/*@Slf4j
+@RestController
+@RequestMapping("api/v1/parametros")
+*/
+@Path("/v1/parametros")
+@Produces("application/json")
+@Consumes("application/json")
+public class ParametroController {
+	
+	@Autowired
+	private DepartamentoService departamentoService;
+	
+	@Autowired
+	private ProvinciaService provinciaService;
+	
+	@Autowired
+	private DistritoService distritoService;
+	
+	//@GetMapping("/getDepartamentos")
+	//public ResponseEntity<?> getDepartamento (@RequestParam String nombre)throws ServiceException 
+	//public ResponseEntity<?> getDepartamento (@PathVariable String nombre)throws ServiceException 
+	
+	@Operation(
+	        summary = "Obtener lista de departamentos", 
+	        description = "Devuelve una lista de departamentos que coinciden con el nombre proporcionado"
+	    )
+	    @ApiResponses(value = {
+	        @ApiResponse(responseCode = "200", description = "Departamentos encontrados"),
+	        @ApiResponse(responseCode = "400", description = "Petición incorrecta")
+	    })
+	
+	@GET
+	@Path("/departamentos")
+	public Response getDepartamentos (
+			@Parameter(description = "Nombre parcial del departamento") 
+			@QueryParam("nombre") String nombre) throws ServiceException
+	{
+		System.out.println(" == getDepartameentos ==");
+		//departamentoService = new DepartamentoServiceImpl();
+		List<DepartamentoDto> departamentos = departamentoService.findNombreLikeCustom(nombre);
+		return Response.ok().entity(departamentos).build();	
+	}
+	
+	@GET
+	@Path("/departamentos/{codDepartamento}")
+	public Response getDepartamento (
+			@Parameter(description = "Nombre parcial del departamento") 
+			@QueryParam("codDepartamento") String codDepartamento) throws ServiceException
+	{
+		System.out.println(" == getDepartameentos ==");
+		//departamentoService = new DepartamentoServiceImpl();
+		DepartamentoDto departamento = departamentoService.findById(codDepartamento);
+		return Response.ok().entity(departamento).build();	
+	}
+	
+	
+	@POST   
+	@Path("/departamentos")
+	public Response insertarDepartamento(DepartamentoDto dto)throws ServiceException {
+	
+
+		DepartamentoDto resultado = departamentoService.Agregar(dto);
+		return Response.ok().entity(resultado).build() ;
+    }
+	
+	
+	//@GetMapping("/getProvincias/{codDepartamento}")
+	//public ResponseEntity<?> getProvincia (@PathVariable("codDepartamento") String codDepartamento, @RequestParam String nombre )throws ServiceException 
+	//public ResponseEntity<?> getProvincia (@PathParam("codDepartamento") String codDepartamento, @RequestParam String nombre )throws ServiceException 
+
+	@GET
+	@Path("/departamentos/{codDepartamento}/provincias")
+	public Response getProvincia (@PathParam("codDepartamento") String codDepartamento, @QueryParam("nombre") String nombre )throws ServiceException 
+	{
+		List<ProvinciaDto> provincias = provinciaService.findNombreLikeCustom(codDepartamento, nombre);
+		return Response.ok().entity(provincias).build();	
+	}
+
+	//@GetMapping("/getDistritos/{codProvincia}")
+	//public ResponseEntity<?> getDistrito (@PathVariable("codProvincia") String codProvincia, @RequestParam String nombre )throws ServiceException 
+	//public ResponseEntity<?> getDistrito (@PathParam("codProvincia") String codProvincia, @RequestParam String nombre )throws ServiceException 
+	
+	@GET
+	@Path("/provincias/{codProvincia}/distritos")
+	public Response getDistrito (@PathParam("codProvincia") String codProvincia, @QueryParam("nombre") String nombre )throws ServiceException 
+	{
+		System.out.println(" == getDistrito ==");
+		List<DistritoDto> distrito = distritoService.findNombreLikeCustom(codProvincia, nombre);
+		return Response.ok().entity(distrito).build();
+	}
+	
+}

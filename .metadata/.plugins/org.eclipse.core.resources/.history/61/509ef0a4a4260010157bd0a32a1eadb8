@@ -1,0 +1,45 @@
+package com.pe.proyecto.api_jersey.escuelaConductores.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.pe.proyecto.api_jersey.escuelaConductores.Repository.DepartamentoRepository;
+import com.pe.proyecto.api_jersey.escuelaConductores.dto.DepartamentoDto;
+import com.pe.proyecto.api_jersey.escuelaConductores.mapper.DepartamentoMapper;
+
+import static java.util.Objects.isNull;
+
+@Service
+public class DepartamentoServiceImpl implements DepartamentoService {
+
+	@Autowired
+	private DepartamentoRepository departamentoRepository;
+	
+	@Autowired
+	private DepartamentoMapper departamentoMapper;
+		
+	@Override
+	public List<DepartamentoDto> findNombreLikeCustom(String nombre) throws ServiceException {
+		System.out.println(nombre);
+
+			System.out.println("### Service - buscarNombreLikeCustom ###");
+			
+			
+			nombre = "%" + (isNull(nombre) ? "" : nombre) + "%";
+			//return this.departamentoRepository.findNombreLikeCustom(nombre);
+			return departamentoRepository.findNombreLikeCustom("%" + nombre + "%").stream().map(p-> departamentoMapper.toDTO(p)).toList();
+
+	}
+
+	@Override
+	public Boolean Agregar(DepartamentoDto dto) throws ServiceException {
+		var entity = departamentoMapper.toEntity(dto);
+		
+		var insertado = this.departamentoRepository.save(entity);
+		
+		return departamentoMapper.toDTO(insertado);
+	}
+
+}
